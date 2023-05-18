@@ -2,6 +2,7 @@ package com.netology.tabbedapplication;
 
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
@@ -32,26 +33,24 @@ public class MainActivityTestOne {
 
     @Test
     public void mainActivityTestOne() {
-        ViewInteraction frameLayout = onView(
-                allOf(withId(android.R.id.content),
-                        withParent(allOf(withId(androidx.constraintlayout.widget.R.id.action_bar_root),
-                                withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class)))),
-                        isDisplayed()));
-        frameLayout.check(matches(isDisplayed()));
-
-
         ViewInteraction textView = onView(
                 allOf(withText("TAB 1"),
-                        withParent(allOf(withContentDescription("Tab 1"),
-                                withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class)))),
                         isDisplayed()));
         textView.check(matches(withText("TAB 1")));
 
         ViewInteraction textView2 = onView(
-                allOf(withText("TAB 2"),
-                        withParent(allOf(withContentDescription("Tab 2"),
-                                withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class)))),
+                allOf(withId(R.id.section_label),
                         isDisplayed()));
-        textView2.check(matches(withText("TAB 2")));
+        textView2.check(matches(withText("Page: 1")));
+
+        ViewInteraction tabView = onView(
+                allOf(withContentDescription("Tab 2"),
+                        isDisplayed()));
+        tabView.perform(click());
+
+        ViewInteraction textView4 = onView(
+                allOf(withId(R.id.section_label),
+                        isDisplayed()));
+        textView4.check(matches(withText("Page: 2")));
     }
 }
